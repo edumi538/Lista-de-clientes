@@ -4,13 +4,15 @@ import javax.sql.DataSource;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.web.servlet.ServletComponentScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 
+@ServletComponentScan
 @SpringBootApplication
 public class config {
-    
-    public static void main(String [] args){
+
+    public static void main(String[] args) {
         SpringApplication.run(config.class, args);
     }
 
