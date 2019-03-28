@@ -7,13 +7,28 @@ and open the template in the editor.
 <html>
     <head>
         <title>Gerador de Relatorio</title>
-        <link href="http://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+        <link href="http://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
         <meta charset="windows-1252">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
     </head>
     <body>
-        <form action="gastos" method="POST">
-            <button type="submit" class="btn btn-success">Gera PDF</button>
+        <div class="container">
+            <div class="jumbotron" align="center" style="margin-top: 50px;">
+                <div align="center">
+        <form  action="Bradesco" method="POST">
+            <button type="submit" class="btn btn-success">Bradesco</button>
         </form>
+                </div>
+            </div>
+        </div>
+                <div class="container">
+            <div class="jumbotron" align="center" style="margin-top: 50px;">
+                <div align="center">
+        <form  action="Sicredi" method="POST">
+            <button type="submit" class="btn btn-primary">Sicredi</button>
+        </form>
+                </div>
+            </div>
+        </div>
     </body>
 </html>

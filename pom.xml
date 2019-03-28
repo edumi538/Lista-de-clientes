@@ -5,6 +5,15 @@
     <groupId>br.com.alura.clientes</groupId>
     <artifactId>listadeclientes</artifactId>
     <version>0.0.1-SNAPSHOT</version>
+    <repositories>
+        <repository>
+            <id>jrimum.org</id>
+            <url>http://jrimum.org/maven/content/groups/public/</url>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -100,8 +109,13 @@
             <artifactId>tomcat-embed-jasper</artifactId>
             <version>9.0.16</version>
         </dependency>
-
+        <dependency>
+            <groupId>org.jrimum</groupId>
+            <artifactId>jrimum-bopepo</artifactId>
+            <version>0.2.3-SNAPSHOT</version><!-- 0.2.3-DEV-SNAPSHOT em desenvolvimento -->
+        </dependency>
     </dependencies>
+
     <properties>
         <maven.compiler.source>1.6</maven.compiler.source>
         <maven.compiler.target>1.6</maven.compiler.target>
