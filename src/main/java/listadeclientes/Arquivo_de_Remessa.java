@@ -5,12 +5,26 @@
  */
 package listadeclientes;
 
+import java.io.FileWriter;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.OutputStream;
+import java.io.PrintWriter;
 import java.math.BigDecimal;
 import java.util.Date;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import net.bytebuddy.dynamic.scaffold.TypeWriter.FieldPool.Record;
+import org.apache.lucene.store.FSDirectory;
 import org.aspectj.weaver.tools.cache.FlatFileCacheBacking;
+import org.h2.store.fs.FileUtils;
+import org.jrimum.bopepo.Boleto;
+import org.jrimum.bopepo.view.BoletoViewer;
 import org.jrimum.utilix.ClassLoaders;
 import org.jrimum.texgit.FlatFile;
 import org.jrimum.texgit.Texgit;
@@ -19,27 +33,46 @@ import org.jrimum.texgit.Texgit;
  *
  * @author 
  */
-public class Arquivo_de_Remessa {
+@WebServlet("/Arquivo_Remessa")
+public class Arquivo_de_Remessa extends HttpServlet{
     
     static final String USUARIO = "Grande Empresa";
     static final Integer FILIALMATRIZ = 5000;
+    private static final long serialVersionUID = 1L;
     
     static int numeroSequencial;
+
+public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, FileNotFoundException, IOException{
  
-    public static void main(String args[]){
+    
+    response.setHeader("Content-Disposition","\"attachment; filename=arquivo_remessa.txt\"");
+    File layout = new File(ClassLoaders.getResource("LayoutContabilidadeToy.txg.xml").getFile());
+    FlatFile<org.jrimum.texgit.Record> ff = Texgit.createFlatFile(layout);
+    ff.addRecord(createHeader(ff));
+    
+    File arquivo = new File("ContabilidadeToy.txt");
+    FileWriter saida = new FileWriter(arquivo);
+    
+    java.util.List<String> linhas = ff.write();
+    
+    for(String linha:linhas){
+      
+        saida.write(linha);
         
-           exportarRemessa();
     }
-    static void exportarRemessa(){
-        
-        File layout = new File(ClassLoaders.getResource("LayoutContabilidadeToy.txg.xml").getFile());
-        
-        FlatFile<org.jrimum.texgit.Record> ff = Texgit.createFlatFile(layout);
-        
-        ff.addRecord(createHeader(ff));
-        
-        
+    saida.close();
+    
+    OutputStream out = response.getOutputStream();
+    FileInputStream in = new FileInputStream(arquivo);
+    byte[] buffer = new byte[4096];
+    int length;
+    while((length = in.read(buffer)) > 0){
+        out.write(buffer, 0 ,length);
+}
+    in.close();
+    out.flush();
     }
+
     	static org.jrimum.texgit.Record createHeader(FlatFile<org.jrimum.texgit.Record> ff){
             org.jrimum.texgit.Record header = ff.createRecord("Header");
             
