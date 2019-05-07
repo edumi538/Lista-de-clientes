@@ -1,9 +1,11 @@
 package listadeclientes;
 
+import java.io.Console;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import org.jfree.util.Log;
 
 @Entity
 public class Cliente {
@@ -53,7 +55,11 @@ public class Cliente {
         return password;
     }
 
-    public void setTelefone(String password) {
+    public void setPassword(String password) {
         this.password = password;
     }
+    public void teste(){
+        Log.debug("funcionou");
+    }
+
 }

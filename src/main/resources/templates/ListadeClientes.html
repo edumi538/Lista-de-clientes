@@ -19,7 +19,7 @@
                         </tr>
                     </thead>
                     <tr th:each="clientes : ${clientes}">
-                        <td><span th:text="${clientes.nome}"></span></td>
+                        <td onclick="" ><span th:text="${clientes.nome}"></span></td>
                         <td><span th:text="${clientes.email}"></span></td>
                         <td><span th:text="${clientes.password}"></span></td>
                     </tr>
@@ -30,8 +30,8 @@
             <div>
                 <form action="delete" method="post">
                     <div class="form-group" style="width: 20rem; margin-top: 1rem">
-                            <input type="text" class="form-control" id="nome" name="nome" placeholder="Adicione aqui o username a ser deletado!">
-                        </div>
+                        <input type="text" class="form-control" id="nome" name="nome" placeholder="Adicione aqui o username a ser deletado!">
+                    </div>
                     <button type="submit" class="btn btn-secondary">Deletar</button>
                 </form>
             </div>

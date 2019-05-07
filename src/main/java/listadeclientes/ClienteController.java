@@ -91,5 +91,27 @@ public class ClienteController {
 
         return retBuf.toString();
     }
+    @RequestMapping(value = "update", method = RequestMethod.POST)
+   public String updateUser(@RequestParam String nome, @RequestParam String password, @RequestParam String email, Model model) {
+
+        StringBuffer retBuf = new StringBuffer();
+
+        List<Cliente> userAccountList = repository.findByNome(nome);
+
+        if (userAccountList != null) {
+            for (Cliente Cliente : userAccountList) {
+                Cliente.setNome(nome);
+                Cliente.setPassword(password);
+                Cliente.setEmail(email);
+                repository.save(Cliente);
+            }
+        }
+        Iterable<Cliente> clientes = repository.findAll();
+        model.addAttribute("clientes", clientes);
+
+        return retBuf.toString();
+        
     }
+}
+    
 
