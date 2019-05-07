@@ -1,14 +1,23 @@
 package listadeclientes;
 
 import java.io.Console;
+import java.util.Collection;
+import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import org.jfree.util.Log;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import java.util.List;
+
 
 @Entity
-public class Cliente {
+public class Cliente implements UserDetails, Serializable{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -17,6 +26,15 @@ public class Cliente {
     private String nome;
     private String email;
     private String password;
+    
+    @ManyToMany
+	@JoinTable( 
+	        name = "usuarios_roles", 
+	        joinColumns = @JoinColumn(
+	          name = "usuario_id", referencedColumnName = "login"), 
+	        inverseJoinColumns = @JoinColumn(
+	          name = "role_id", referencedColumnName = "nomeRole")) 
+        private List<Role> roles;
 
     public Cliente() {
     }
@@ -58,8 +76,40 @@ public class Cliente {
     public void setPassword(String password) {
         this.password = password;
     }
-    public void teste(){
-        Log.debug("funcionou");
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        
+            return (Collection<? extends GrantedAuthority>) this.roles;        
+        }
+
+    @Override
+    public String getUsername() {
+        return this.nome;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+       return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        
+        return true;
+        
+    }
+
+    @Override
+    public boolean isEnabled() {
+        
+        return true;
+        
     }
 
 }

@@ -51,7 +51,7 @@ public class ClienteController {
         Cliente novoCliente = new Cliente(nome, email, password);
         repository.save(novoCliente);
 
-        return "ListadeClientes";
+        return "redirect:/ListadeClientes";
     }
     @RequestMapping(value = "delete", method = RequestMethod.POST)
     public String deleteByNome(@RequestParam String nome, Model model) {
