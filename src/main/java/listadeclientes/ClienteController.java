@@ -1,5 +1,10 @@
 package listadeclientes;
 
+import java.util.List;
+import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -46,23 +51,45 @@ public class ClienteController {
         Cliente novoCliente = new Cliente(nome, email, password);
         repository.save(novoCliente);
 
-        Iterable<Cliente> clientes = repository.findAll();
-        model.addAttribute("clientes", clientes);
-
         return "ListadeClientes";
     }
     @RequestMapping(value = "delete", method = RequestMethod.POST)
-    public String deletar(@RequestParam("id") Long id,Model model){
-        
-      
-        
-       repository.deleteById(id);
+    public String deleteByNome(@RequestParam String nome, Model model) {
 
-           
+        StringBuffer retBuf = new StringBuffer();
+
+        repository.deleteByNome(nome);
+
         Iterable<Cliente> clientes = repository.findAll();
         model.addAttribute("clientes", clientes);
         
          return "ListadeClientes";
     }
+    @RequestMapping(value = "login", method = RequestMethod.POST)
+    public String findByNomeAndPassword(@RequestParam String nome, @RequestParam String password) {
 
-}
+        StringBuffer retBuf = new StringBuffer();
+
+        List<Cliente> userAccountList = (List<Cliente>) repository
+                .findByNomeAndPassword(nome, password);
+
+        if (userAccountList != null) {
+            for (Cliente Cliente : userAccountList) {
+                retBuf.append("nome = ");
+                retBuf.append(Cliente.getNome());
+                retBuf.append(", password = ");
+                retBuf.append(Cliente.getPassword());
+                retBuf.append(", email = ");
+                retBuf.append(Cliente.getEmail());
+                retBuf.append("<br/>");
+            }
+        }
+
+        if (retBuf.length() == 0) {
+            retBuf.append("No record find.");
+        }
+
+        return retBuf.toString();
+    }
+    }
+

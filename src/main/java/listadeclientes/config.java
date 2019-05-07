@@ -20,7 +20,7 @@ public class config {
     public DataSource dataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setDriverClassName("org.postgresql.Driver");
-        dataSource.setUrl("jdbc:postgresql://" + "localhost:" + "5432/" + "Clientes" + "?autoReconnect=true");
+        dataSource.setUrl("jdbc:postgresql://" + "localhost:" + "5432/" + "ListaClientes" + "?autoReconnect=true");
         dataSource.setUsername("teste");
         dataSource.setPassword("teste");
         return dataSource;
