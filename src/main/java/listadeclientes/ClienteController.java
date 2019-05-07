@@ -33,11 +33,17 @@ public class ClienteController {
     public String remessas(Model model){
         return "remessas";
     }
+    @RequestMapping("cadastro_Usuario")
+    public String cadastro_usuarios_mapping(Model model){
+        
+        return "cadastro_Usuario";
+        
+    }
     @RequestMapping(value = "salvar", method = RequestMethod.POST)
     public String salvar(@RequestParam("nome") String nome, @RequestParam("email") String email,
-            @RequestParam("telefone") String telefone, Model model) {
+            @RequestParam("password") String password, Model model) {
 
-        Cliente novoCliente = new Cliente(nome, email, telefone);
+        Cliente novoCliente = new Cliente(nome, email, password);
         repository.save(novoCliente);
 
         Iterable<Cliente> clientes = repository.findAll();

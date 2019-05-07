@@ -14,15 +14,15 @@ public class Cliente {
 
     private String nome;
     private String email;
-    private String telefone;
+    private String password;
 
     public Cliente() {
     }
 
-    public Cliente(String nome, String email, String telefone) {
+    public Cliente(String nome, String email, String password) {
         this.nome = nome;
         this.email = email;
-        this.telefone = telefone;
+        this.password = password;
     }
 
     public Long getId() {
@@ -49,11 +49,11 @@ public class Cliente {
         this.email = email;
     }
 
-    public String getTelefone() {
-        return telefone;
+    public String getPassword() {
+        return password;
     }
 
-    public void setTelefone(String telefone) {
-        this.telefone = telefone;
+    public void setTelefone(String password) {
+        this.password = password;
     }
 }
