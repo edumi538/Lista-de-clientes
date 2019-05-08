@@ -45,10 +45,10 @@ public class ClienteController {
         
     }
     @RequestMapping(value = "salvar", method = RequestMethod.POST)
-    public String salvar(@RequestParam("nome") String nome, @RequestParam("email") String email,
+    public String salvar(@RequestParam("username") String username, @RequestParam("email") String email,
             @RequestParam("password") String password, Model model) {
 
-        Cliente novoCliente = new Cliente(nome, email, password);
+        Cliente novoCliente = new Cliente(username, email, password);
         repository.save(novoCliente);
 
         return "redirect:/ListadeClientes";
@@ -58,25 +58,25 @@ public class ClienteController {
 
         StringBuffer retBuf = new StringBuffer();
 
-        repository.deleteByNome(nome);
+        repository.deleteByUsername(nome);
 
         Iterable<Cliente> clientes = repository.findAll();
         model.addAttribute("clientes", clientes);
         
-         return "ListadeClientes";
+         return "redirect:/ListadeClientes";
     }
     @RequestMapping(value = "login", method = RequestMethod.POST)
-    public String findByNomeAndPassword(@RequestParam String nome, @RequestParam String password) {
+    public String findByUsernameAndPassword(@RequestParam String nome, @RequestParam String password) {
 
         StringBuffer retBuf = new StringBuffer();
 
         List<Cliente> userAccountList = (List<Cliente>) repository
-                .findByNomeAndPassword(nome, password);
+                .findByUsernameAndPassword(nome, password);
 
         if (userAccountList != null) {
             for (Cliente Cliente : userAccountList) {
                 retBuf.append("nome = ");
-                retBuf.append(Cliente.getNome());
+                retBuf.append(Cliente.getUsername());
                 retBuf.append(", password = ");
                 retBuf.append(Cliente.getPassword());
                 retBuf.append(", email = ");
@@ -96,11 +96,11 @@ public class ClienteController {
 
         StringBuffer retBuf = new StringBuffer();
 
-        List<Cliente> userAccountList = repository.findByNome(nome);
+        List<Cliente> userAccountList = repository.findByUsername(nome);
 
         if (userAccountList != null) {
             for (Cliente Cliente : userAccountList) {
-                Cliente.setNome(nome);
+                Cliente.setUsername(nome);
                 Cliente.setPassword(password);
                 Cliente.setEmail(email);
                 repository.save(Cliente);

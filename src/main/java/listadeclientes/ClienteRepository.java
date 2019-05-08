@@ -5,9 +5,9 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.transaction.annotation.Transactional;
 
 public interface ClienteRepository extends CrudRepository<Cliente, Long>{
-   List<Cliente>findByNome(String nome);
-   List<Cliente> findByNomeAndPassword(String nome, String password);
+   List<Cliente>findByUsername(String username);
+   List<Cliente> findByUsernameAndPassword(String username, String password);
     @Transactional
-    void deleteByNome(String nome);
+    void deleteByUsername(String username);
 
 }

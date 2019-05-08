@@ -10,37 +10,25 @@ import javax.persistence.Id;
 import org.jfree.util.Log;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import java.util.List;
 
 
 @Entity
-public class Cliente implements UserDetails, Serializable{
+public class Cliente{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String nome;
+    private String username;
     private String email;
     private String password;
     
-    @ManyToMany
-	@JoinTable( 
-	        name = "usuarios_roles", 
-	        joinColumns = @JoinColumn(
-	          name = "usuario_id", referencedColumnName = "login"), 
-	        inverseJoinColumns = @JoinColumn(
-	          name = "role_id", referencedColumnName = "nomeRole")) 
-        private List<Role> roles;
-
     public Cliente() {
     }
 
-    public Cliente(String nome, String email, String password) {
-        this.nome = nome;
+    public Cliente(String username, String email, String password) {
+        this.username = username;
         this.email = email;
         this.password = password;
     }
@@ -51,14 +39,6 @@ public class Cliente implements UserDetails, Serializable{
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public String getNome() {
-        return nome;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
     }
 
     public String getEmail() {
@@ -77,39 +57,19 @@ public class Cliente implements UserDetails, Serializable{
         this.password = password;
     }
 
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        
-            return (Collection<? extends GrantedAuthority>) this.roles;        
-        }
-
-    @Override
+    /**
+     * @return the username
+     */
     public String getUsername() {
-        return this.nome;
+        return username;
     }
 
-    @Override
-    public boolean isAccountNonExpired() {
-        return true;
+    /**
+     * @param username the username to set
+     */
+    public void setUsername(String username) {
+        this.username = username;
     }
-
-    @Override
-    public boolean isAccountNonLocked() {
-       return true;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        
-        return true;
-        
-    }
-
-    @Override
-    public boolean isEnabled() {
-        
-        return true;
-        
-    }
+   
 
 }
