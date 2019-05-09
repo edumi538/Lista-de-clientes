@@ -4,16 +4,18 @@
  * and open the template in the editor.
  */
 package Repository;
-
-import listadeclientes.Cliente;
-import org.springframework.data.jpa.repository.JpaRepository;
+import java.util.Optional;
+import listadeclientes.Usuario;
+import org.springframework.data.repository.CrudRepository;
 
 /**
  *
  * @author root
  */
-public interface InterfaceCliente extends JpaRepository<Cliente, Long> {
+public interface UsuarioRepository extends CrudRepository<Usuario,String> {
+
     
-    Cliente findByUsername(String username);
+    Usuario findByUsername(String username);
+  
     
 }

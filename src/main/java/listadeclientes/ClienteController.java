@@ -25,7 +25,7 @@ public class ClienteController {
     @RequestMapping("ListadeClientes")
     public String listaClientes(Model model) {
 
-        Iterable<Cliente> clientes = repository.findAll();
+        Iterable<Usuario> clientes = repository.findAll();
         model.addAttribute("clientes", clientes);
 
         return "ListadeClientes";
@@ -45,11 +45,11 @@ public class ClienteController {
         
     }
     @RequestMapping(value = "salvar", method = RequestMethod.POST)
-    public String salvar(@RequestParam("username") String username, @RequestParam("email") String email,
+    public String salvar(@RequestParam("nomecompleto")String nomecompleto,@RequestParam("username") String username, @RequestParam("email") String email,
             @RequestParam("password") String password, Model model) {
 
-        Cliente novoCliente = new Cliente(username, email, password);
-        repository.save(novoCliente);
+        Usuario novoUsuario = new Usuario(nomecompleto,username, email, password);
+        repository.save(novoUsuario);
 
         return "redirect:/ListadeClientes";
     }
@@ -60,21 +60,21 @@ public class ClienteController {
 
         repository.deleteByUsername(nome);
 
-        Iterable<Cliente> clientes = repository.findAll();
-        model.addAttribute("clientes", clientes);
+        Iterable<Usuario> usuarios = repository.findAll();
+        model.addAttribute("usuarios", usuarios);
         
          return "redirect:/ListadeClientes";
     }
     @RequestMapping(value = "login", method = RequestMethod.POST)
-    public String findByUsernameAndPassword(@RequestParam String nome, @RequestParam String password) {
+    public String findByUsernameAndPassword(@RequestParam String nomecompleto, @RequestParam String password) {
 
         StringBuffer retBuf = new StringBuffer();
 
-        List<Cliente> userAccountList = (List<Cliente>) repository
-                .findByUsernameAndPassword(nome, password);
+        List<Usuario> userAccountList = (List<Usuario>) repository
+                .findByUsernameAndPassword(nomecompleto, password);
 
         if (userAccountList != null) {
-            for (Cliente Cliente : userAccountList) {
+            for (Usuario Cliente : userAccountList) {
                 retBuf.append("nome = ");
                 retBuf.append(Cliente.getUsername());
                 retBuf.append(", password = ");
@@ -92,22 +92,22 @@ public class ClienteController {
         return retBuf.toString();
     }
     @RequestMapping(value = "update", method = RequestMethod.POST)
-   public String updateUser(@RequestParam String nome, @RequestParam String password, @RequestParam String email, Model model) {
+   public String updateUser(@RequestParam String username, @RequestParam String nomecompleto, @RequestParam String password, @RequestParam String email, Model model) {
 
         StringBuffer retBuf = new StringBuffer();
 
-        List<Cliente> userAccountList = repository.findByUsername(nome);
+        List<Usuario> userAccountList = repository.findByUsername(nomecompleto);
 
         if (userAccountList != null) {
-            for (Cliente Cliente : userAccountList) {
-                Cliente.setUsername(nome);
+            for (Usuario Cliente : userAccountList) {
+                Cliente.setUsername(username);
                 Cliente.setPassword(password);
                 Cliente.setEmail(email);
                 repository.save(Cliente);
             }
         }
-        Iterable<Cliente> clientes = repository.findAll();
-        model.addAttribute("clientes", clientes);
+        Iterable<Usuario> usuarios = repository.findAll();
+        model.addAttribute("usuarios", usuarios);
 
         return retBuf.toString();
         
